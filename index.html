@@ -185,7 +185,23 @@
 </head>
 
 <body>
+    <div id="enter">
+  click para entrar...
+</div>
     <style>
+          #enter {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+}
         html {
             direction: ltr;
         }
@@ -206,6 +222,14 @@
             color: #ffffff;
         }
     </style>
+    <script>const enter = document.getElementById("enter");
+
+enter.addEventListener("click", () => {
+  audio.play().catch(e => console.log("Erro ao tocar:", e));
+  
+  // remove a tela de entrada
+  enter.style.display = "none";
+});</script>
     <script>requestAnimationFrame(function () { $RT = performance.now() });</script>
     <script src="./@Ribe_files/webpack-d5e0b98392af1779.js.download" id="_R_" async=""></script>
     <script>$RB = []; $RV = function (a) { $RT = performance.now(); for (var b = 0; b < a.length; b += 2) { var c = a[b], e = a[b + 1]; null !== e.parentNode && e.parentNode.removeChild(e); var f = c.parentNode; if (f) { var g = c.previousSibling, h = 0; do { if (c && 8 === c.nodeType) { var d = c.data; if ("/$" === d || "/&" === d) if (0 === h) break; else h--; else "$" !== d && "$?" !== d && "$~" !== d && "$!" !== d && "&" !== d || h++ } d = c.nextSibling; f.removeChild(c); c = d } while (c); for (; e.firstChild;)f.insertBefore(e.firstChild, c); g.data = "$"; g._reactRetry && requestAnimationFrame(g._reactRetry) } } a.length = 0 };

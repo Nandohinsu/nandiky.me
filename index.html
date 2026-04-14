@@ -570,26 +570,44 @@ btn.addEventListener("click", () => {
       <path fill="currentColor" d="M12 9a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5a5 5 0 0 1 5-5a5 5 0 0 1 5 5a5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/>
     </svg>
 
-    <span id="views">0</span>
+  <span id="views">Carregando...</span>
 
-<script>
-let views = localStorage.getItem("views");
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc, increment, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-if (!views) {
-    views = 0;
-} else {
-    views = parseInt(views);
+// CONFIG DO FIREBASE (copie do seu projeto)
+const firebaseConfig = {
+  apiKey: "AIzaSyBv0alHlLfnJdqPq2H65ad8c2xww5rylcE",
+  authDomain: "nandiky.firebaseapp.com",
+  projectId: "nandiky",
+  storageBucket: "nandiky.firebasestorage.app",
+  messagingSenderId: "655329908179",
+  appId: "1:655329908179:web:0a29427e6f19c740868b26"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const ref = doc(db, "contador", "visitas");
+
+async function atualizarContador() {
+  const snap = await getDoc(ref);
+
+  if (!snap.exists()) {
+    await setDoc(ref, { total: 1 });
+    document.getElementById("views").textContent = 1;
+  } else {
+    await updateDoc(ref, {
+      total: increment(1)
+    });
+
+    const novoSnap = await getDoc(ref);
+    document.getElementById("views").textContent = novoSnap.data().total;
+  }
 }
 
-views++;
-
-// limita até 5000 e reinicia
-if (views > 5000) {
-    views = 0;
-}
-
-localStorage.setItem("views", views);
-document.getElementById("views").textContent = views;
+atualizarContador();
 </script>
 
 <style>
